@@ -52,18 +52,24 @@ def main():
     SPOTIPY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
     SPOTIPY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
     SPOTIPY_REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URI")
-
+    SPOTIPY_REFRESH_TOKEN = os.getenv("SPOTIPY_REFRESH_TOKEN")
     genius = lyricsgenius.Genius(
         GENIUS_TOKEN,
         skip_non_songs=True,
         remove_section_headers=True
         )
 
-    sp = spotipy.Spotify(
-        auth_manager=SpotifyOAuth(scope=scope)
+    oauth = SpotifyOAuth(
+        client_id=SPOTIPY_CLIENT_ID,
+        client_secret=SPOTIPY_CLIENT_SECRET,
+        redirect_uri=SPOTIPY_REDIRECT_URI,
+        scope=scope
     )
 
-    results = sp.current_user_top_tracks(limit=3, time_range="short_term")
+    token_info = oauth.refresh_access_token(SPOTIPY_REFRESH_TOKEN)
+    sp = spotipy.Spotify(auth=token_info["access_token"])
+    
+    results = sp.current_user_top_tracks(limit=30, time_range="short_term")
     items = results['items']
 
     # print (items)
