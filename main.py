@@ -52,7 +52,6 @@ def main():
     SPOTIPY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
     SPOTIPY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
     SPOTIPY_REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URI")
-    SPOTIFY_REFRESH_TOKEN = os.getenv("SPOTIFY_REFRESH_TOKEN")
 
     genius = lyricsgenius.Genius(
         GENIUS_TOKEN,
